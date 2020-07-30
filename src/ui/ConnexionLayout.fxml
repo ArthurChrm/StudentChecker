@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.ConnexionController">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="91.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField promptText="Nom d'utilisateur">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </TextField>
+            <PasswordField promptText="Mot de passe">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </PasswordField>
+            <Button alignment="CENTER" contentDisplay="TOP" minWidth="150.0" mnemonicParsing="false" onAction="#seConnecter" text="Se connecter">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="50.0" right="50.0" />
+         </padding>
+      </VBox>
+   </center>
+   <bottom>
+      <Label text="StudentChecker vous permet de suivre la présence de vos étudiants." BorderPane.alignment="CENTER">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+   </bottom>
+   <top>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Connexion" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="30.0" />
+         </font>
+      </Text>
+   </top>
+</BorderPane>
