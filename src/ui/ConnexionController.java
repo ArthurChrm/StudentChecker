@@ -34,6 +34,4 @@ public class ConnexionController extends Controller{
 			e.printStackTrace();
 		}
 	}
-
-	
 }
