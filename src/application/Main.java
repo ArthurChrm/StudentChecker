@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -41,7 +42,12 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		DatabaseManager.createDatabase("database_studentChecker.db");
+		try {
+			DatabaseManager.createDatabase("database_studentChecker.db");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		launch(args);
 	}
 }
