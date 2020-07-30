@@ -16,6 +16,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="StudentChecker">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#seDeconnecter" text="Se déconnecter" />
               <MenuItem mnemonicParsing="false" onAction="#fermer" text="Fermer" />
             </items>
           </Menu>

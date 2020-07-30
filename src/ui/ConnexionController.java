@@ -9,11 +9,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ConnexionController extends Controller{
-	
-	@FXML
-	private void initialize() {
+
+	@Override
+	public void postInitialize() {
+		getStage().setTitle("StudentChecker - Connexion");		
 	}
-	
+
 	@FXML
 	private void seConnecter() {
 		try {
@@ -21,7 +22,7 @@ public class ConnexionController extends Controller{
 			Parent root = (Parent) loader.load();
 			MainController controller = (MainController) loader.getController();
 			controller.setStage(getStage());
-			controller.getStage().setTitle("Présence");
+			controller.postInitialize();
 
 			// Création de la scène
 			Scene scene = new Scene(root, 1200, 600);
@@ -33,4 +34,6 @@ public class ConnexionController extends Controller{
 			e.printStackTrace();
 		}
 	}
+
+	
 }

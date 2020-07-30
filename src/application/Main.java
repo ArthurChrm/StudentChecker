@@ -18,11 +18,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/ConnexionLayout.fxml"));
-			Parent root = (Parent) loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/ConnexionLayout.fxml"));			
+			Parent root = (Parent) loader.load();	
 			ConnexionController controller = (ConnexionController) loader.getController();
 			controller.setStage(primaryStage);
-			controller.getStage().setTitle("Présence");
+			controller.postInitialize();
 
 			// Création de la scène
 			Scene scene = new Scene(root, 1200, 600);

@@ -16,6 +16,8 @@ public abstract class Controller {
 	}
 	
 	@FXML
-	private void initialize() {
+	void initialize() {
 	}
+	
+	public abstract void postInitialize();
 }
