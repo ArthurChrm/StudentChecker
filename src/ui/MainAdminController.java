@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import modele.Classe;
 import modele.Eleves;
 
 public class MainAdminController extends Controller {
@@ -38,17 +39,6 @@ public class MainAdminController extends Controller {
 	void initialize() {
 		super.initialize();
 		System.out.println("[MainController] Initialize");
-		
-		
-		final ObservableList<Eleves> items = FXCollections.observableArrayList(
-				new Eleves(1, "Arthur", "Cheramy", new Date()), new Eleves(2, "Antoine", "Corgniard", new Date()));
-
-		prenom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("prenomEleve"));
-		nom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("nomEleve"));
-		//present.setCellValueFactory(tc -> new CheckBoxTableCell<Eleves>());
-		present.setCellFactory( CheckBoxTableCell.forTableColumn(present) );
-
-		table.getItems().addAll(items);
 	}
 
 	@Override

@@ -17,8 +17,8 @@ public class ConnexionController extends Controller{
 
 	@FXML
 	private void seConnecter() {
-		super.ouvrirMainAlternant();
-		//super.ouvrirMainAdmin();
+		//super.ouvrirMainAlternant();
+		super.ouvrirMainAdmin();
 	}
 	
 	
