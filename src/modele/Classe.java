@@ -15,7 +15,7 @@ public class Classe {
 	private Integer idClasse;
 	private String nomClasse;
 	private List<Cours> listeCours;
-	private List<Eleves> listeEleves;
+	private List<Compte> listeEleves;
 
 	/**
 	 * @param idClasse
@@ -23,7 +23,7 @@ public class Classe {
 	 * @param ListeCours
 	 * @param ListeEleves
 	 */
-	public Classe(String nomClasse, List<Cours> listeCours, List<Eleves> listeEleves) {
+	public Classe(String nomClasse, List<Cours> listeCours, List<Compte> listeEleves) {
 		this.nomClasse = nomClasse;
 		this.listeCours = listeCours;
 		this.listeEleves = listeEleves;
@@ -57,11 +57,11 @@ public class Classe {
 		this.listeCours = listeCours;
 	}
 
-	public List<Eleves> getListeEleves() {
+	public List<Compte> getListeEleves() {
 		return listeEleves;
 	}
 
-	public void setListeEleves(List<Eleves> listeEleves) {
+	public void setListeEleves(List<Compte> listeEleves) {
 		this.listeEleves = listeEleves;
 	}
 

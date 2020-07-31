@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import modele.Classe;
+import modele.Compte;
 import modele.Eleves;
+import modele.Presence;
 
 public class MainAdminController extends Controller {
 
@@ -34,10 +37,10 @@ public class MainAdminController extends Controller {
 	TableView tableEtudiants;
 
 	@FXML
-	TableColumn<Eleves, String> prenom;
+	TableColumn<Compte, String> prenom;
 
 	@FXML
-	TableColumn<Eleves, String> nom;
+	TableColumn<Compte, String> nom;
 
 	@FXML
 	TableColumn classe;
@@ -46,7 +49,7 @@ public class MainAdminController extends Controller {
 	TableColumn eleves;
 
 	@FXML
-	TableColumn<Eleves, Boolean> present;
+	TableColumn<Compte, Boolean> present;
 
 	@Override
 	void initialize() {
@@ -58,6 +61,7 @@ public class MainAdminController extends Controller {
 		classe.setCellValueFactory(new PropertyValueFactory<Classe, String>("nomClasse"));
 		tableClasse.setUserData(classes);
 		tableClasse.setItems(FXCollections.observableList(classes));
+
 	}
 
 	@Override
@@ -99,14 +103,32 @@ public class MainAdminController extends Controller {
 	@FXML
 	public void onClickTableClasse(MouseEvent event) {
 		if (event.getButton().equals(MouseButton.PRIMARY)) {
-			
+
 			Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
 			System.out.println("Click sur " + classe.getNomClasse());
-			
-			nom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("nomEleve"));
-			prenom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("prenomEleve"));
-			System.out.println(classe.getListeEleves().size() +"- taille eleves");
-			tableEtudiants.setItems(FXCollections.observableList(classe.getListeEleves()));
+
+			nom.setCellValueFactory(new PropertyValueFactory<Compte, String>("nom"));
+			prenom.setCellValueFactory(new PropertyValueFactory<Compte, String>("prenom"));
+			present.setCellValueFactory(new PropertyValueFactory<Compte, Boolean>("present"));
+
+			List<Compte> comptes = classe.getListeEleves();
+			List<Presence> presences = Presence.all();
+			for (Compte compte : comptes) {
+				for (Presence presence : presences) {
+					//if(presence.getIdCours() != )
+					if (compte.getIdUtilisateur() != presence.getIdUtilisateur()) {
+						continue;
+					}
+					if (presence.isEstAbsent() == false) {
+						compte.present = true;
+					}else {
+						compte.present = false;
+					}
+				}
+			}
+
+			tableEtudiants.setItems(FXCollections.observableList(comptes));
+
 		}
 		event.consume();
 	}

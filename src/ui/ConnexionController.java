@@ -32,7 +32,22 @@ public class ConnexionController extends Controller {
 		}
 
 		if (UserManager.isEstAdministrateur()) {
-			super.ouvrirMainAdmin();
+			try {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/AdministrationLayout.fxml"));
+				Parent root = (Parent) loader.load();
+				AdministrationController controller = (AdministrationController) loader.getController();
+				controller.setStage(getStage());
+				controller.postInitialize();
+
+				// Création de la scène
+				Scene scene = new Scene(root, 1200, 600);
+				scene.getStylesheets().add(getClass().getResource("/application/application.css").toExternalForm());
+
+				controller.getStage().setScene(scene);
+				controller.getStage().show();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		} else {
 			super.ouvrirMainAlternant();
 		}

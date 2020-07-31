@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class DatabaseManager {
 
 	static String filename = "database_studentChecker.db";
-	static String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/"+filename;
+	static String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/" + filename;
 	private static Connection connection;
 
 	public static void createDatabase() throws FileNotFoundException {
@@ -51,10 +51,12 @@ public class DatabaseManager {
 
 	public static Connection getConnection() {
 		try {
-			connection = DriverManager.getConnection(url);
+			if (connection == null) {
+				connection = DriverManager.getConnection(url);
+			}
+			return connection;
 		} catch (Exception e) {
 			return null;
 		}
-		return connection;
 	}
 }
