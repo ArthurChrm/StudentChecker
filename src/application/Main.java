@@ -43,7 +43,7 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		try {
-			DatabaseManager.createDatabase("database_studentChecker.db");
+			DatabaseManager.createDatabase();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

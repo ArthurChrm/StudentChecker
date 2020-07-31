@@ -14,12 +14,12 @@
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="91.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField promptText="Nom d'utilisateur">
+            <TextField fx:id="nomUtilisateur" promptText="Nom d'utilisateur">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <PasswordField promptText="Mot de passe">
+            <PasswordField fx:id="mdpUtilisateur" promptText="Mot de passe">
                <font>
                   <Font size="20.0" />
                </font>

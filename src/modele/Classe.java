@@ -78,8 +78,7 @@ public class Classe {
             Classe classe = new Classe();
             classe.setIdClasse(rs.getInt("idClasse"));
             classe.setNomClasse(rs.getString("nomClasse"));
-          //  classe.setListeCours((rs.getString(""));
-           // classe.setListeEleves(rs.getString(""));
+            classe.setListeCours(Cours.getCoursFromClasse(this));
             ls.add(classe);
         }
         return ls;

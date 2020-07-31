@@ -16,18 +16,20 @@ import java.util.Scanner;
 
 public class DatabaseManager {
 
-	public static void createDatabase(String fileName) throws FileNotFoundException {
-		
-		File f = new File(System.getProperty("user.dir") + "/" + fileName);
-		if(f.exists() && !f.isDirectory()) { 
-		    System.out.println("La base de données existe déjà.");
+	static String filename = "database_studentChecker.db";
+	static String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/"+filename;
+	private static Connection connection;
+
+	public static void createDatabase() throws FileNotFoundException {
+
+		File f = new File(System.getProperty("user.dir") + "/" + filename);
+		if (f.exists() && !f.isDirectory()) {
+			System.out.println("La base de données existe déjà.");
 			return;
 		}
 		System.out.println("Création de la base de données...");
-		
-		String url = "jdbc:sqlite:" + System.getProperty("user.dir") + "/" + fileName;
 
-		try (Connection conn = DriverManager.getConnection(url)) {
+		try (Connection conn = getConnection()) {
 			if (conn != null) {
 				DatabaseMetaData meta = conn.getMetaData();
 
@@ -37,13 +39,22 @@ public class DatabaseManager {
 				while (myReader.hasNextLine()) {
 					query += myReader.nextLine();
 				}
-				
+
 				PreparedStatement stmt = conn.prepareStatement(query);
-		        stmt.execute();
+				stmt.execute();
 			}
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public static Connection getConnection() {
+		try {
+			connection = DriverManager.getConnection(url);
+		} catch (Exception e) {
+			return null;
+		}
+		return connection;
 	}
 }
