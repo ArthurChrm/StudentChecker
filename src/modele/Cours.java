@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,13 +91,14 @@ public class Cours {
 	}
 
 	// ajoute un cours
-	public static int add(Cours cours) {
+	public static int add(Cours cours, int idClasse) {
 		try {
-			String query = "insert into cours(nomCours, dateDebut ,dateFin ) VALUES (?, ?, ?)";
+			String query = "insert into cours(nomCours, dateDebutCours ,dateFinCours, idClasse) VALUES (?, ?, ?, ?)";
 			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 			ps.setString(1, cours.getNomCours());
 			ps.setDate(2, cours.getDateDebut());
 			ps.setDate(3, cours.getDateFin());
+			ps.setInt(4, idClasse);
 			int n = ps.executeUpdate();
 			return n;
 		} catch (SQLException e) {
@@ -138,7 +140,7 @@ public class Cours {
 
 	public static List<Cours> getCoursFromClasse(Classe classe) {
 		try {
-			String query = "SELECT * FROM COURS INNER JOIN CLASSE ON COURS.idClasse = ?";
+			String query = "SELECT * FROM COURS WHERE Cours.idClasse = ?";
 			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 			ps.setInt(1, classe.getIdClasse());
 			ResultSet rs = ps.executeQuery();
@@ -148,12 +150,13 @@ public class Cours {
 				Cours c = new Cours();
 				c.setIdCours(rs.getInt("idCours"));
 				c.setNomCours(rs.getString("nomCours"));
-				c.setDateDebut(rs.getDate("dateDebut"));
-				c.setDateFin(rs.getDate("dateFin"));
+				c.setDateDebut(rs.getDate("dateDebutCours"));
+				c.setDateFin(rs.getDate("dateFinCours"));
 				cours.add(c);
 			}
 			return cours;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ArrayList<Cours>();
 		}
 	}

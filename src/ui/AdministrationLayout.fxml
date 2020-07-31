@@ -83,16 +83,18 @@
          </BorderPane.margin>
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cours" />
-            <TableView>
+            <TableView fx:id="tableCours">
               <columns>
-                <TableColumn prefWidth="75.0" text="Nom du cours" />
-                <TableColumn prefWidth="75.0" text="Début - Fin" />
+                <TableColumn fx:id="nomCours" prefWidth="75.0" text="Nom du cours" />
+                <TableColumn fx:id="heureDebutCours" prefWidth="75.0" text="Heure début" />
+                  <TableColumn fx:id="heureFinCours" prefWidth="75.0" text="Heure fin" />
+                  <TableColumn fx:id="supprimerCours" prefWidth="75.0" text="Supprimer" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
-            <Button mnemonicParsing="false" prefWidth="250.0" text="Ajouter un cours">
+            <Button mnemonicParsing="false" onAction="#ajoutCours" prefWidth="250.0" text="Ajouter un cours">
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>

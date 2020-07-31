@@ -1,57 +1,65 @@
+------------------------------------------------------------
+--        Script SQLite  
+------------------------------------------------------------
 
+
+------------------------------------------------------------
+-- Table: Classe
+------------------------------------------------------------
 CREATE TABLE Classe(
 	idClasse     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
 	nomClasse    TEXT NOT NULL
 );
 
+
+------------------------------------------------------------
+-- Table: Cours
+------------------------------------------------------------
 CREATE TABLE Cours(
 	idCours           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
 	dateDebutCours    NUMERIC NOT NULL ,
 	dateFinCours      NUMERIC NOT NULL ,
+	nomCours          TEXT NOT NULL ,
 	idClasse          INTEGER NOT NULL
 
 	,CONSTRAINT Cours_Classe_FK FOREIGN KEY (idClasse) REFERENCES Classe(idClasse)
 );
 
+
+------------------------------------------------------------
+-- Table: Compte
+------------------------------------------------------------
 CREATE TABLE Compte(
 	idutilisateur     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
 	nomUtilisateur    TEXT NOT NULL ,
-	mdpUtilisateur    TEXT NOT NULL
+	mdpUtilisateur    TEXT NOT NULL ,
+	prenom            TEXT NOT NULL ,
+	nom               TEXT NOT NULL ,
+	isAdmin           INTEGER NOT NULL ,
+	idClasse          INTEGER
+
+	,CONSTRAINT Compte_Classe_FK FOREIGN KEY (idClasse) REFERENCES Classe(idClasse)
 );
 
-CREATE TABLE Eleve(
-	idEleve          INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
-	nomEleve         TEXT NOT NULL ,
-	prenomEleve      TEXT NOT NULL ,
-	dateNaissance    NUMERIC NOT NULL ,
-	idClasse         INTEGER NOT NULL ,
-	idutilisateur    INTEGER
 
-	,CONSTRAINT Eleve_Classe_FK FOREIGN KEY (idClasse) REFERENCES Classe(idClasse)
-	,CONSTRAINT Eleve_Compte0_FK FOREIGN KEY (idutilisateur) REFERENCES Compte(idutilisateur)
-	,CONSTRAINT Eleve_Compte_AK UNIQUE (idutilisateur)
-);
-
-CREATE TABLE Administrateur(
-	idAdmin               INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
-	nomAdmin              TEXT NOT NULL ,
-	prenomAdmin           TEXT NOT NULL ,
-	dateNaissanceAdmin    NUMERIC NOT NULL ,
-	idutilisateur         INTEGER
-
-	,CONSTRAINT Administrateur_Compte_FK FOREIGN KEY (idutilisateur) REFERENCES Compte(idutilisateur)
-	,CONSTRAINT Administrateur_Compte_AK UNIQUE (idutilisateur)
-);
-
+------------------------------------------------------------
+-- Table: Presence
+------------------------------------------------------------
 CREATE TABLE Presence(
-	idCours      INTEGER NOT NULL ,
-	idEleve      INTEGER NOT NULL ,
-	estAbsent    INTEGER NOT NULL,
-	CONSTRAINT Presence_PK PRIMARY KEY (idCours,idEleve)
+	idutilisateur    INTEGER NOT NULL ,
+	idCours          INTEGER NOT NULL ,
+	estAbsent        INTEGER NOT NULL,
+	CONSTRAINT Presence_PK PRIMARY KEY (idutilisateur,idCours)
 
-	,CONSTRAINT Presence_Cours_FK FOREIGN KEY (idCours) REFERENCES Cours(idCours)
-	,CONSTRAINT Presence_Eleve0_FK FOREIGN KEY (idEleve) REFERENCES Eleve(idEleve)
+	,CONSTRAINT Presence_Compte_FK FOREIGN KEY (idutilisateur) REFERENCES Compte(idutilisateur)
+	,CONSTRAINT Presence_Cours0_FK FOREIGN KEY (idCours) REFERENCES Cours(idCours)
 );
 
-INSERT INTO COMPTE(nomUtilisateur, mdpUtilisateur) VALUES("ACHERAMY", "azerty");
-INSERT INTO Administrateur(nomAdmin, prenomAdmin, dateNaissanceAdmin, idutilisateur) VALUES("CHERAMY", "Arthur", "1999-04-07", 1);
+INSERT INTO CLASSE(nomClasse) VALUES("RIL 2019-2020");
+
+INSERT INTO COURS(dateDebutCours, dateFinCours, nomCours, idClasse) VALUES(date('2007-01-01 10:00:00'),date('2007-01-01 10:00:00'), "Java", 1);
+INSERT INTO COURS(dateDebutCours, dateFinCours, nomCours, idClasse) VALUES(date('2007-01-01 10:00:00'),date('2007-01-01 10:00:00'), "Java", 1);
+INSERT INTO COURS(dateDebutCours, dateFinCours, nomCours, idClasse) VALUES(date('2007-01-01 10:00:00'),date('2007-01-01 10:00:00'), "Java JEE", 1);
+
+INSERT INTO COMPTE(nomUtilisateur, mdpUtilisateur, prenom, nom, isAdmin, idClasse) VALUES("ACHERAMY", "azerty", "Arthur", "Cheramy", true, 1);
+INSERT INTO COMPTE(nomUtilisateur, mdpUtilisateur, prenom, nom, isAdmin, idClasse) VALUES("MVILLERMIN", "azerty", "Maxime", "Villermin", false, 1);

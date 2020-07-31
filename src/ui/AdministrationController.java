@@ -32,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
 import javafx.util.Pair;
 import modele.Classe;
+import modele.Cours;
 import modele.Eleves;
 import modele.ElevesSQL;
 
@@ -44,6 +45,9 @@ public class AdministrationController extends Controller {
 	TableView tableEtudiants;
 
 	@FXML
+	TableView tableCours;
+
+	@FXML
 	TableColumn<Eleves, String> prenom;
 
 	@FXML
@@ -54,9 +58,18 @@ public class AdministrationController extends Controller {
 
 	@FXML
 	TableColumn supprimer;
-	
+
 	@FXML
-	Button ajoutEleve;
+	TableColumn nomCours;
+
+	@FXML
+	TableColumn heureDebutCours;
+
+	@FXML
+	TableColumn heureFinCours;
+
+	@FXML
+	TableColumn supprimerCours;
 
 	@Override
 	public void postInitialize() {
@@ -172,11 +185,11 @@ public class AdministrationController extends Controller {
 
 	@FXML
 	private void ajoutEleve() {
-		if(tableClasse.getSelectionModel().getSelectedItem() == null) {
+		if (tableClasse.getSelectionModel().getSelectedItem() == null) {
 			System.out.println("Aucune classe n'est séléctionnée");
 			return;
 		}
-		
+
 		System.out.println("Ajout d'un élève");
 
 		// Create the custom dialog.
@@ -223,19 +236,90 @@ public class AdministrationController extends Controller {
 		// clicked.
 		dialog.setResultConverter(dialogButton -> {
 			if (dialogButton == loginButtonType) {
-				
-				if(nom.getText().equals("") || prenom.getText().equals("") || date.getValue() == null) {
+
+				if (nom.getText().equals("") || prenom.getText().equals("") || date.getValue() == null) {
 					return null;
 				}
-				
+
 				Eleves eleve = new Eleves();
 				eleve.setNomEleve(nom.getText());
 				eleve.setPrenomEleve(prenom.getText());
 				eleve.setDateNaissance(Date.valueOf(date.getValue()));
-				
-				Classe classe = (Classe)tableClasse.getSelectionModel().getSelectedItem();
+
+				Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
 				int result = ElevesSQL.add(eleve, classe.getIdClasse());
 				System.out.println(result);
+				postInitialize();
+			}
+			return null;
+		});
+
+		dialog.show();
+	}
+
+	@FXML
+	private void ajoutCours() {
+		if (tableClasse.getSelectionModel().getSelectedItem() == null) {
+			System.out.println("Aucune classe n'est séléctionnée");
+			return;
+		}
+
+		System.out.println("Ajout d'un cours");
+
+		// Create the custom dialog.
+		Dialog<Pair<String, String>> dialog = new Dialog<>();
+		dialog.setTitle("Ajout d'un cours");
+
+		// Set the button types.
+		ButtonType loginButtonType = new ButtonType("Ajouter", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(loginButtonType, ButtonType.CANCEL);
+
+		// Create the username and password labels and fields.
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField nom = new TextField();
+		nom.setPromptText("Nom du cours");
+
+		DatePicker dateDebut = new DatePicker();
+		DatePicker dateFin = new DatePicker();
+
+		grid.add(new Label("Nom du cours:"), 0, 0);
+		grid.add(new Label("Date de début:"), 0, 1);
+		grid.add(new Label("Date de fin:"), 0, 2);
+		grid.add(nom, 1, 0);
+		grid.add(dateDebut, 1, 1);
+		grid.add(dateFin, 1, 2);
+
+		// Enable/Disable login button depending on whether a username was entered.
+		Node ajoutButton = dialog.getDialogPane().lookupButton(loginButtonType);
+		ajoutButton.setDisable(true);
+
+		// Do some validation (using the Java 8 lambda syntax).
+		nom.textProperty().addListener((observable, oldValue, newValue) -> {
+			ajoutButton.setDisable(newValue.trim().isEmpty());
+		});
+
+		dialog.getDialogPane().setContent(grid);
+
+		// Convert the result to a username-password-pair when the login button is
+		// clicked.
+		dialog.setResultConverter(dialogButton -> {
+			if (dialogButton == loginButtonType) {
+
+				if (nom.getText() == null || dateDebut.getValue() == null || dateFin.getValue() == null) {
+					return null;
+				}
+
+				Cours cours = new Cours();
+				cours.setNomCours(nom.getText());
+				cours.setDateDebut(Date.valueOf(dateDebut.getValue()));
+				cours.setDateFin(Date.valueOf(dateFin.getValue()));
+
+				Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
+				int result = Cours.add(cours, classe.getIdClasse());
 				postInitialize();
 			}
 			return null;
@@ -249,11 +333,47 @@ public class AdministrationController extends Controller {
 		if (event.getButton().equals(MouseButton.PRIMARY)) {
 			Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
 			System.out.println("Click sur " + classe.getNomClasse());
-			
+
 			nom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("nomEleve"));
 			prenom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("prenomEleve"));
-			System.out.println(classe.getListeEleves().size() +"- taille eleves");
+			System.out.println(classe.getListeEleves().size() + "- taille eleves");
 			tableEtudiants.setItems(FXCollections.observableList(classe.getListeEleves()));
+
+			nomCours.setCellValueFactory(new PropertyValueFactory<Cours, String>("nomCours"));
+			heureDebutCours.setCellValueFactory(new PropertyValueFactory<Cours, String>("dateDebut"));
+			heureFinCours.setCellValueFactory(new PropertyValueFactory<Cours, String>("dateFin"));
+			Callback<TableColumn<Cours, String>, TableCell<Cours, String>> cellFactory = //
+					new Callback<TableColumn<Cours, String>, TableCell<Cours, String>>() {
+						@Override
+						public TableCell call(final TableColumn<Cours, String> param) {
+							final TableCell<Cours, String> cell = new TableCell<Cours, String>() {
+
+								final Button btn = new Button("Supprimer");
+
+								@Override
+								public void updateItem(String item, boolean empty) {
+									super.updateItem(item, empty);
+									if (empty) {
+										setGraphic(null);
+										setText(null);
+									} else {
+										btn.setOnAction(event -> {
+											Cours cours = getTableView().getItems().get(getIndex());
+											System.out.println(cours.getNomCours());
+											Cours.delete(cours.getIdCours());
+											postInitialize();
+										});
+										setGraphic(btn);
+										setText(null);
+									}
+								}
+							};
+							return cell;
+						}
+					};
+
+			supprimerCours.setCellFactory(cellFactory);
+			tableCours.setItems(FXCollections.observableList(classe.getListeCours()));
 		}
 		event.consume();
 	}

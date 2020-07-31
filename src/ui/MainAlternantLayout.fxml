@@ -43,10 +43,11 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <TableView>
+            <TableView fx:id="tableCours">
               <columns>
                 <TableColumn fx:id="nomCours" prefWidth="75.0" text="Nom du cours" />
-                <TableColumn fx:id="horraireCours" prefWidth="75.0" text="Horraire du cours" />
+                <TableColumn fx:id="heureDebutCours" prefWidth="75.0" text="Début du cours" />
+                  <TableColumn fx:id="heureFinCours" prefWidth="75.0" text="Fin du cours" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

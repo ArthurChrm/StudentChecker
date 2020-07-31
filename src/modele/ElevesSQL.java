@@ -119,26 +119,25 @@ public class ElevesSQL {
 		}
 	}
 	
-	public static List<Eleves> getElevesFromClasse(Classe classe) {
+	public static List<Compte> getElevesFromClasse(Classe classe) {
 		try {
-			String query = "SELECT * FROM Eleve WHERE Eleve.idClasse = ?";
+			String query = "SELECT * FROM Compte WHERE Compte.idClasse = ? AND Compte.isAdmin = false";
 			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 			ps.setInt(1, classe.getIdClasse());
 			ResultSet rs = ps.executeQuery();
 
-			List<Eleves> eleves = new ArrayList<Eleves>();
+			List<Compte> eleves = new ArrayList<Compte>();
 			while (rs.next()) {
-				Eleves e = new Eleves();
-				e.setIdEleve(rs.getInt("idEleve"));
-				e.setNomEleve(rs.getString("nomEleve"));
-				e.setPrenomEleve(rs.getString("prenomEleve"));
-				e.setDateNaissance(rs.getDate("dateNaissance"));
+				Compte e = new Compte();
+				e.setIdUtilisateur(rs.getInt("idutilisateur"));
+				e.setNom(rs.getString("nom"));
+				e.setPrenom(rs.getString("prenom"));
 				eleves.add(e);
 			}
 			System.out.println("getElevesFromClasse size : "+eleves.size());
 			return eleves;
 		} catch (Exception e) {
-			return new ArrayList<Eleves>();
+			return new ArrayList<Compte>();
 		}
 	}
 

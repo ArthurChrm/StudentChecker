@@ -4,6 +4,7 @@ public class UserManager {
 	
 	private static String nom;
 	private static boolean estAdministrateur;
+	private static int id;
 	
 	public static String getNom() {
 		return nom;
@@ -18,4 +19,11 @@ public class UserManager {
 		System.out.println("Administrateur : "+estAdministrateur);
 		UserManager.estAdministrateur = estAdministrateur;
 	}
+	public static int getId() {
+		return id;
+	}
+	public static void setId(int id) {
+		UserManager.id = id;
+	}
+	
 }
