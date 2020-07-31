@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import database.DatabaseManager;
+
 import java.sql.Date;
 
 public class Administrateur {
@@ -69,7 +72,7 @@ public class Administrateur {
 	    public Administrateur getAdmin(int id) throws SQLException {
 
 	        String query = "select * from admin where idAdmin= ?";
-	        PreparedStatement ps = conn.prepareStatement(query);
+	        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 	        ps.setInt(1, id);
 	        Administrateur admin = new Administrateur();
 	        ResultSet rs = ps.executeQuery();
@@ -95,7 +98,7 @@ public class Administrateur {
 	            throws SQLException
 	    {
 	        String query = "select * from admin";
-	        PreparedStatement ps = conn.prepareStatement(query);
+	        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 	        ResultSet rs = ps.executeQuery();
 	        List<Administrateur> ls = new ArrayList();
 
@@ -113,7 +116,7 @@ public class Administrateur {
 	    //ajoute un admin
 	    public int add(Administrateur admin)throws SQLException{
 	        String query = "insert into admin(nomAdmin, prenomAdmin, dateNaissanceAdmin) VALUES (?, ?, ?)";
-	        PreparedStatement ps = conn.prepareStatement(query);
+	        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 	        ps.setString(1, admin.getNomAdmin());
 	        ps.setString(2, admin.getPrenomAdmin());
 	        ps.setDate(3, admin.getDateNaissanceAdmin());
@@ -124,7 +127,7 @@ public class Administrateur {
 	    //supprime un admin
 	    public void delete(int id) throws SQLException {
 	        String query = "delete from admin where idAdmin = ?";
-	        PreparedStatement ps = conn.prepareStatement(query);
+	        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 	        ps.setInt(1, id);
 	        ps.executeUpdate();
 	    }
@@ -133,7 +136,7 @@ public class Administrateur {
 	    public void update(Administrateur admin) throws SQLException {
 
 	        String query = "update admin set nomAdmin=?,  prenomAdmin= ?, dateNaissanceAdmin=? where idAdmin = ?";
-	        PreparedStatement ps = conn.prepareStatement(query);
+	        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 	        ps.setString(1, admin.getNomAdmin());
 	        ps.setString(2, admin.getPrenomAdmin());
 	        ps.setDate(3, admin.getDateNaissanceAdmin());

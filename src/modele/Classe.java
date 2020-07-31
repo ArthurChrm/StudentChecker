@@ -114,14 +114,18 @@ public class Classe {
 	}
 
 	// met à jour un admin
-	public void update(Classe classe) throws SQLException {
-
-		String query = "update classe set nomClasse=?,  listeEleve= ?, listeCours=? where idClasse = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
-		ps.setString(1, classe.getNomClasse());
-		// ps.setString(2, classe.getListeEleves());
-		// ps.setDate(3, classe.getListeCours());
-		ps.setInt(4, classe.getIdClasse());
-		ps.executeUpdate();
+	public static void update(Classe classe) {
+		try {
+			String query = "update classe set nomClasse=?,  listeEleve= ?, listeCours=? where idClasse = ?";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setString(1, classe.getNomClasse());
+			// ps.setString(2, classe.getListeEleves());
+			// ps.setDate(3, classe.getListeCours());
+			ps.setInt(4, classe.getIdClasse());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

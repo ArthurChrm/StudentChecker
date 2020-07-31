@@ -28,7 +28,7 @@ public class ElevesSQL {
 	public Eleves getEleve(int id) throws SQLException {
 
 		String query = "select * from eleve where idEleve= ?";
-		PreparedStatement ps = conn.prepareStatement(query);
+		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 		ps.setInt(1, id);
 		Eleves eleves = new Eleves();
 		ResultSet rs = ps.executeQuery();
@@ -51,7 +51,7 @@ public class ElevesSQL {
 	// Get la liste des eleves
 	public List<Eleves> getEleves() throws SQLException {
 		String query = "select * from eleve";
-		PreparedStatement ps = conn.prepareStatement(query);
+		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 		ResultSet rs = ps.executeQuery();
 		List<Eleves> ls = new ArrayList();
 
@@ -87,7 +87,7 @@ public class ElevesSQL {
 	// supprime un eleve
 	public void delete(int id) throws SQLException {
 		String query = "delete from eleve where idEleve = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
+		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 		ps.setInt(1, id);
 		ps.executeUpdate();
 	}
@@ -96,7 +96,7 @@ public class ElevesSQL {
 	public void update(Eleves eleve) throws SQLException {
 
 		String query = "update eleve set nomEleve=?,  prenomEleve= ?, dateNaissance=?, idClasse=? where idEleve = ?";
-		PreparedStatement ps = conn.prepareStatement(query);
+		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 		ps.setString(1, eleve.getNomEleve());
 		ps.setString(2, eleve.getPrenomEleve());
 		ps.setDate(3, eleve.getDateNaissance());

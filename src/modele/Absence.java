@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.DatabaseManager;
+
 public class Absence {
 
 	private Connection conn;
@@ -66,7 +68,7 @@ public class Absence {
     //ajoute une absence
     public int add(Absence absence)throws SQLException{
         String query = "insert into absence(eleve, cours ) VALUES (?, ?)";
-        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
        // ps.setString(1, absence.getEleve());
        // ps.setString(2, absence.getCours());
         int n = ps.executeUpdate();
@@ -76,7 +78,7 @@ public class Absence {
     //supprime une absence
     public void delete(int id) throws SQLException {
         String query = "delete from absence where idAbsence = ?";
-        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
         ps.setInt(1, id);
         ps.executeUpdate();
     }
@@ -85,7 +87,7 @@ public class Absence {
     public void update(Absence absence) throws SQLException {
 
         String query = "update absence set eleve=?,  cours= ? where idAbsence = ?";
-        PreparedStatement ps = conn.prepareStatement(query);
+        PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
      //   ps.setString(1, absence.getEleve());
      //   ps.setDate(2, absence.getCours());
         ps.setInt(3, absence.getIdAbscence());
