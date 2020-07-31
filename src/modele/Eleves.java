@@ -1,10 +1,10 @@
 package modele;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Eleves {
 
-    private int idEleve;
+    private Integer idEleve;
     private String nomEleve;
     private String prenomEleve;
     private Date dateNaissance;
