@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import database.DatabaseManager;
+
 public class Classe {
 
 	private Connection conn;
@@ -22,16 +24,16 @@ public class Classe {
 	 * @param ListeCours
 	 * @param ListeEleves
 	 */
-    public Classe(String nomClasse,List<Cours> listeCours, List<Eleves>  listeEleves) {
-    	this.nomClasse = nomClasse;
-        this.listeCours = listeCours;
-        this.listeEleves = listeEleves;
-    }
+	public Classe(String nomClasse, List<Cours> listeCours, List<Eleves> listeEleves) {
+		this.nomClasse = nomClasse;
+		this.listeCours = listeCours;
+		this.listeEleves = listeEleves;
+	}
 
-    public Classe() {
-    	
-    }
-    
+	public Classe() {
+
+	}
+
 	public Integer getIdClasse() {
 		return idClasse;
 	}
@@ -64,54 +66,62 @@ public class Classe {
 		this.listeEleves = listeEleves;
 	}
 
+	// Get la liste des classes
+	public static List<Classe> getClasses() {
+		try {
+			String query = "select * from classe";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			List<Classe> ls = new ArrayList();
 
-	  //Get la liste des classes
-    public List<Classe> getClasses()
-            throws SQLException
-    {
-        String query = "select * from classe";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ResultSet rs = ps.executeQuery();
-        List<Classe> ls = new ArrayList();
+			while (rs.next()) {
+				Classe classe = new Classe();
+				classe.setIdClasse(rs.getInt("idClasse"));
+				classe.setNomClasse(rs.getString("nomClasse"));
+				classe.setListeCours(Cours.getCoursFromClasse(classe));
+				classe.setListeEleves(ElevesSQL.getElevesFromClasse(classe));
+				ls.add(classe);
+			}
+			return ls;
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-        while (rs.next()) {
-            Classe classe = new Classe();
-            classe.setIdClasse(rs.getInt("idClasse"));
-            classe.setNomClasse(rs.getString("nomClasse"));
-            classe.setListeCours(Cours.getCoursFromClasse(this));
-            ls.add(classe);
-        }
-        return ls;
-    }
+	// ajoute une classe
+	public static int add(Classe classe) {
+		try {
+			String query = "insert into classe(nomClasse) VALUES (?)";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setString(1, classe.getNomClasse());
+			int n = ps.executeUpdate();
+			return n;
+		} catch (Exception e) {
+			return -1;
+		}
+	}
 
-    //ajoute une classe
-    public int add(Classe classe)throws SQLException{
-        String query = "insert into classe(nomClasse, , ) VALUES (?, ?, ?)";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, classe.getNomClasse());
-      //  ps.setString(2, classe.getListeCours());
-       // ps.setString(3, classe.getListeEleves());
-        int n = ps.executeUpdate();
-        return n;
-    }
-    
-    //supprime une classe
-    public void delete(int id) throws SQLException {
-        String query = "delete from classe where idClasse = ?";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setInt(1, id);
-        ps.executeUpdate();
-    }
-    
-    //met à jour un admin
-    public void update(Classe classe) throws SQLException {
+	// supprime une classe
+	public static void delete(int id) {
+		try {
+			String query = "delete from classe where idClasse = ?";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (Exception e) {
 
-        String query = "update classe set nomClasse=?,  listeEleve= ?, listeCours=? where idClasse = ?";
-        PreparedStatement ps = conn.prepareStatement(query);
-        ps.setString(1, classe.getNomClasse());
-     //    ps.setString(2, classe.getListeEleves());
-     //   ps.setDate(3, classe.getListeCours());
-        ps.setInt(4, classe.getIdClasse());
-        ps.executeUpdate();
-    }
+		}
+	}
+
+	// met à jour un admin
+	public void update(Classe classe) throws SQLException {
+
+		String query = "update classe set nomClasse=?,  listeEleve= ?, listeCours=? where idClasse = ?";
+		PreparedStatement ps = conn.prepareStatement(query);
+		ps.setString(1, classe.getNomClasse());
+		// ps.setString(2, classe.getListeEleves());
+		// ps.setDate(3, classe.getListeCours());
+		ps.setInt(4, classe.getIdClasse());
+		ps.executeUpdate();
+	}
 }

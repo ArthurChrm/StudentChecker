@@ -41,7 +41,7 @@
       </Text>
    </bottom>
    <center>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="tableEtudiants" BorderPane.alignment="CENTER">
         <columns>
           <TableColumn prefWidth="75.0" text="Nom" />
           <TableColumn prefWidth="75.0" text="Prenom" />
@@ -56,12 +56,10 @@
       </TableView>
    </center>
    <left>
-      <TableView fx:id="table" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableClasse" onMouseClicked="#onClickTableClasse" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="prenom" prefWidth="75.0" text="Promotion" />
-          <TableColumn fx:id="nom" prefWidth="75.0" text="Classe" />
-            <TableColumn fx:id="present" prefWidth="75.0" text="Années" />
-            <TableColumn prefWidth="75.0" text="Elèves" />
+          <TableColumn fx:id="classe" prefWidth="75.0" text="Classe" />
+            <TableColumn fx:id="eleves" prefWidth="75.0" text="Elèves" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" />

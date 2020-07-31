@@ -25,7 +25,7 @@ CREATE TABLE Eleve(
 	prenomEleve      TEXT NOT NULL ,
 	dateNaissance    NUMERIC NOT NULL ,
 	idClasse         INTEGER NOT NULL ,
-	idutilisateur    INTEGER NOT NULL
+	idutilisateur    INTEGER
 
 	,CONSTRAINT Eleve_Classe_FK FOREIGN KEY (idClasse) REFERENCES Classe(idClasse)
 	,CONSTRAINT Eleve_Compte0_FK FOREIGN KEY (idutilisateur) REFERENCES Compte(idutilisateur)
@@ -37,7 +37,7 @@ CREATE TABLE Administrateur(
 	nomAdmin              TEXT NOT NULL ,
 	prenomAdmin           TEXT NOT NULL ,
 	dateNaissanceAdmin    NUMERIC NOT NULL ,
-	idutilisateur         INTEGER NOT NULL
+	idutilisateur         INTEGER
 
 	,CONSTRAINT Administrateur_Compte_FK FOREIGN KEY (idutilisateur) REFERENCES Compte(idutilisateur)
 	,CONSTRAINT Administrateur_Compte_AK UNIQUE (idutilisateur)

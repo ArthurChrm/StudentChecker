@@ -6,10 +6,12 @@ import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,20 +20,31 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import modele.Classe;
 import modele.Eleves;
 
 public class MainAdminController extends Controller {
 
 	@FXML
-	TableView table;
-	
+	TableView tableClasse;
+
+	@FXML
+	TableView tableEtudiants;
+
 	@FXML
 	TableColumn<Eleves, String> prenom;
-	
+
 	@FXML
-	TableColumn<Eleves, String>nom;
-	
+	TableColumn<Eleves, String> nom;
+
+	@FXML
+	TableColumn classe;
+
+	@FXML
+	TableColumn eleves;
+
 	@FXML
 	TableColumn<Eleves, Boolean> present;
 
@@ -39,6 +52,12 @@ public class MainAdminController extends Controller {
 	void initialize() {
 		super.initialize();
 		System.out.println("[MainController] Initialize");
+
+		List<Classe> classes = Classe.getClasses();
+		System.out.println(classes.size());
+		classe.setCellValueFactory(new PropertyValueFactory<Classe, String>("nomClasse"));
+		tableClasse.setUserData(classes);
+		tableClasse.setItems(FXCollections.observableList(classes));
 	}
 
 	@Override
@@ -75,5 +94,14 @@ public class MainAdminController extends Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@FXML
+	public void onClickTableClasse(MouseEvent event) {
+		if (event.getButton().equals(MouseButton.PRIMARY)) {
+			Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
+			System.out.println("Click sur " + classe.getNomClasse());
+		}
+		event.consume();
 	}
 }
