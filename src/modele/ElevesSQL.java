@@ -13,57 +13,62 @@ import database.DatabaseManager;
 import java.sql.Date;
 
 public class ElevesSQL {
-	private Connection conn;
 
-	/**
-	 * @param conn
-	 */
-	public ElevesSQL(Connection conn) {
-		this.conn = conn;
-	}
 
 	// static Connection conn = DataConnection.getConnection();
 
 	// Get un eleve
-	public Eleves getEleve(int id) throws SQLException {
+	public static Eleves getEleve(int id) {
 
-		String query = "select * from eleve where idEleve= ?";
-		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
-		ps.setInt(1, id);
-		Eleves eleves = new Eleves();
-		ResultSet rs = ps.executeQuery();
-		boolean check = false;
+		try {
+			String query = "select * from eleve where idEleve= ?";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setInt(1, id);
+			Eleves eleves = new Eleves();
+			ResultSet rs = ps.executeQuery();
+			boolean check = false;
 
-		while (rs.next()) {
-			check = true;
-			eleves.setIdEleve(rs.getInt("idEleve"));
-			eleves.setNomEleve(rs.getString("nomEleve"));
-			eleves.setPrenomEleve(rs.getString("prenomEleve"));
-			eleves.setDateNaissance(rs.getDate("dateNaissance"));
-		}
+			while (rs.next()) {
+				check = true;
+				eleves.setIdEleve(rs.getInt("idEleve"));
+				eleves.setNomEleve(rs.getString("nomEleve"));
+				eleves.setPrenomEleve(rs.getString("prenomEleve"));
+				eleves.setDateNaissance(rs.getDate("dateNaissance"));
+			}
 
-		if (check == true) {
-			return eleves;
-		} else
+			if (check == true) {
+				return eleves;
+			} else
+				return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return null;
+		}
 	}
 
 	// Get la liste des eleves
-	public List<Eleves> getEleves() throws SQLException {
-		String query = "select * from eleve";
-		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
-		ResultSet rs = ps.executeQuery();
-		List<Eleves> ls = new ArrayList();
+	public static List<Eleves> getEleves() {
+		try {
+			String query = "select * from eleve";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			List<Eleves> ls = new ArrayList();
 
-		while (rs.next()) {
-			Eleves eleves = new Eleves();
-			eleves.setIdEleve(rs.getInt("idEleve"));
-			eleves.setNomEleve(rs.getString("nomEleve"));
-			eleves.setPrenomEleve(rs.getString("prenomEleve"));
-			eleves.setDateNaissance(rs.getDate("dateNaissance"));
-			ls.add(eleves);
+			while (rs.next()) {
+				Eleves eleves = new Eleves();
+				eleves.setIdEleve(rs.getInt("idEleve"));
+				eleves.setNomEleve(rs.getString("nomEleve"));
+				eleves.setPrenomEleve(rs.getString("prenomEleve"));
+				eleves.setDateNaissance(rs.getDate("dateNaissance"));
+				ls.add(eleves);
+			}
+			return ls;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<Eleves>();
 		}
-		return ls;
 	}
 
 	// ajoute un eleve
@@ -85,23 +90,33 @@ public class ElevesSQL {
 	}
 
 	// supprime un eleve
-	public void delete(int id) throws SQLException {
-		String query = "delete from eleve where idEleve = ?";
-		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
-		ps.setInt(1, id);
-		ps.executeUpdate();
+	public static void delete(int id) {
+		try {
+			String query = "delete from eleve where idEleve = ?";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// met à jour un eleve
-	public void update(Eleves eleve) throws SQLException {
+	public static void update(Eleves eleve) {
 
-		String query = "update eleve set nomEleve=?,  prenomEleve= ?, dateNaissance=?, idClasse=? where idEleve = ?";
-		PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
-		ps.setString(1, eleve.getNomEleve());
-		ps.setString(2, eleve.getPrenomEleve());
-		ps.setDate(3, eleve.getDateNaissance());
-		ps.setInt(4, eleve.getIdEleve());
-		ps.executeUpdate();
+		try {
+			String query = "update eleve set nomEleve=?,  prenomEleve= ?, dateNaissance=?, idClasse=? where idEleve = ?";
+			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
+			ps.setString(1, eleve.getNomEleve());
+			ps.setString(2, eleve.getPrenomEleve());
+			ps.setDate(3, eleve.getDateNaissance());
+			ps.setInt(4, eleve.getIdEleve());
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static List<Eleves> getElevesFromClasse(Classe classe) {

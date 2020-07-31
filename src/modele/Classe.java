@@ -12,7 +12,6 @@ import database.DatabaseManager;
 
 public class Classe {
 
-	private Connection conn;
 	private Integer idClasse;
 	private String nomClasse;
 	private List<Cours> listeCours;
