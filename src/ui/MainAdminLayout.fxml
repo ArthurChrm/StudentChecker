@@ -43,9 +43,9 @@
    <center>
       <TableView fx:id="tableEtudiants" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="Nom" />
-          <TableColumn prefWidth="75.0" text="Prenom" />
-            <TableColumn prefWidth="75.0" text="Present" />
+          <TableColumn fx:id="nom" prefWidth="75.0" text="Nom" />
+          <TableColumn fx:id="prenom" prefWidth="75.0" text="Prenom" />
+            <TableColumn fx:id="present" prefWidth="75.0" text="Present" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="20.0" right="20.0" />

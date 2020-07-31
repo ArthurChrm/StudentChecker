@@ -76,6 +76,7 @@ public class ElevesSQL {
 			ps.setDate(3, eleve.getDateNaissance());
 			ps.setInt(4,  idClasse);
 			int n = ps.executeUpdate();
+			System.out.println(n +" lignes ont été ajoutés (élève)");
 			return n;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -105,7 +106,7 @@ public class ElevesSQL {
 	
 	public static List<Eleves> getElevesFromClasse(Classe classe) {
 		try {
-			String query = "SELECT * FROM Eleve INNER JOIN CLASSE ON Eleve.idClasse = ?";
+			String query = "SELECT * FROM Eleve WHERE Eleve.idClasse = ?";
 			PreparedStatement ps = DatabaseManager.getConnection().prepareStatement(query);
 			ps.setInt(1, classe.getIdClasse());
 			ResultSet rs = ps.executeQuery();

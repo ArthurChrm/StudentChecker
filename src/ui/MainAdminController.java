@@ -99,8 +99,14 @@ public class MainAdminController extends Controller {
 	@FXML
 	public void onClickTableClasse(MouseEvent event) {
 		if (event.getButton().equals(MouseButton.PRIMARY)) {
+			
 			Classe classe = (Classe) tableClasse.getSelectionModel().getSelectedItem();
 			System.out.println("Click sur " + classe.getNomClasse());
+			
+			nom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("nomEleve"));
+			prenom.setCellValueFactory(new PropertyValueFactory<Eleves, String>("prenomEleve"));
+			System.out.println(classe.getListeEleves().size() +"- taille eleves");
+			tableEtudiants.setItems(FXCollections.observableList(classe.getListeEleves()));
 		}
 		event.consume();
 	}
