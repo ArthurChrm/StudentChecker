@@ -1,5 +1,6 @@
 package application;
 	
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -13,7 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ui.ConnexionController;
-import ui.MainController;
+import ui.MainAdminController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -41,7 +42,12 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
-		DatabaseManager.createDatabase("database_studentChecker.db");
+		try {
+			DatabaseManager.createDatabase("database_studentChecker.db");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		launch(args);
 	}
 }
