@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainAdminController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -20,8 +20,10 @@
               <MenuItem mnemonicParsing="false" onAction="#fermer" text="Fermer" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Administration" />
-          <Menu mnemonicParsing="false" text="Aide" />
+          <Menu mnemonicParsing="false" onAction="#ouvrirAdministration" text="Administration">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#ouvrirAdministration" text="Ouvrir administration" />
+               </items></Menu>
         </menus>
          <BorderPane.margin>
             <Insets bottom="10.0" />
@@ -54,11 +56,11 @@
       </TableView>
    </center>
    <left>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="table" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="Promotion" />
-          <TableColumn prefWidth="75.0" text="Classe" />
-            <TableColumn prefWidth="75.0" text="Années" />
+          <TableColumn fx:id="prenom" prefWidth="75.0" text="Promotion" />
+          <TableColumn fx:id="nom" prefWidth="75.0" text="Classe" />
+            <TableColumn fx:id="present" prefWidth="75.0" text="Années" />
             <TableColumn prefWidth="75.0" text="Elèves" />
         </columns>
          <BorderPane.margin>
